@@ -15,20 +15,22 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('status_id')->constrained('user_statuses');
+            $table->foreignId('role_id')->constrained();
             $table->string('first_name');
             $table->string('last_name');
-            $table->string('contact');
             $table->string('email')->unique();
+            $table->boolean('email_verified');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-
-            $table->foreignId('status_id')->nullable()->constrained('user_statuses')->nullOnDelete();
-            $table->foreignId('role_id')->nullable()->constrained()->nullOnDelete();
-
+            $table->string('mobile');
+            $table->boolean('mobile_verified');
+            $table->timestamp('mobile_verified_at')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
-
+    
     /**
      * Reverse the migrations.
      *

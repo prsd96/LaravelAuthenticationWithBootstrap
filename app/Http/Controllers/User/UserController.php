@@ -1,12 +1,14 @@
 <?php
 
+//user CRUD
+
 namespace App\Http\Controllers\User;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\CreateUserRequest;
-use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Services\User\UserService;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\{CreateUserRequest, UpdateUserRequest};
 
 class UserController extends Controller
 {
@@ -17,7 +19,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        return response()->json(['data' => User::all()]);
+        $data = User::all();
+        return view('user/index', compact('data'));
     }
 
     /**
@@ -28,7 +31,12 @@ class UserController extends Controller
      */
     public function store(CreateUserRequest $request)
     {
-        return response()->json(['data' => User::create($request->validated())],201);
+        $data = User::create($request->validated());
+
+        //send email verification email
+        (new UserService)->emailVerificationEmail($data);
+
+        return view('auth/registration/verify_email_alert');
     }
 
     /**

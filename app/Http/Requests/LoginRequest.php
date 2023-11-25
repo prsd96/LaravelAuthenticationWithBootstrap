@@ -2,10 +2,9 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Validation\Rules\Password;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateUserRequest extends FormRequest
+class LoginRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,10 +24,18 @@ class UpdateUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'first_name' => ['required', 'string', 'max:255'],
-            'last_name' => ['required', 'string', 'max:255'],
-            'contact' => ['required', 'string', 'max:255'],
-            'role_id' => ['required', 'integer', 'exists:roles,id'],
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ];
+    }
+
+    // Error messages for above validations
+    public function messages()
+    {
+        return [
+            'email.required' => 'Email ID is required.',
+            'email.email' => 'Invalid Email ID format.',
+            'password.required' => 'Password is required.',
         ];
     }
 }
