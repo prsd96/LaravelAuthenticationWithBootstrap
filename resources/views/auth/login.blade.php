@@ -10,7 +10,7 @@
         {{ session('message') }}
     </div>
     @endif
-
+    
     @if ($errors->any())
     <div class="row p-3 align-items-center">
         <div class="alert alert-danger">
@@ -42,11 +42,18 @@
                         
                         <div class="form-group">
                             <label for="password">{{ __('Password') }}</label>
-                            <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
-                            @error('password')
-                            <span class="invalid-feedback" role="alert">{{ $message }}</span>
-                            @enderror
-                        </div>
+                        
+                            <div class="input-group">
+                                <input id="loginPasswordInput" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+                                @error('password')
+                                <span class="invalid-feedback" role="alert">{{ $message }}</span>
+                                @enderror
+                        
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" type="button" id="loginPasswordButton" onclick="passwordShowHide('loginPasswordInput', 'loginPasswordButton')">Show</button>
+                                </div>
+                            </div>
+                        </div> 
                         
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>

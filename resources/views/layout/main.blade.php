@@ -48,14 +48,14 @@
     
     @yield('content')
     
-    <!-- Include the Bootstrap JS and jQuery script links here -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
-    </script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-KyZXEAg3QhqLMpG8r+I66g6FLJo4s5Dgfdv5oaxm3C5N/P/XsDJZaW5CkO5IaxBQ"
-    crossorigin="anonymous">
-</script>
-
-<!-- Include your custom JavaScript file -->
-<script src="{{ URL::asset('assets/js/custom.js') }}"></script>
+    <!-- Include jQuery first -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <!-- Then include Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    
+    <!-- Finally, include your custom JavaScript file -->
+    <script src="{{ URL::asset('assets/js/custom.js') }}"></script>
+    
 </body>
 </html>

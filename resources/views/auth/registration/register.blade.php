@@ -66,17 +66,30 @@
                         
                         <div class="form-group">
                             <label for="password">{{ __('Password') }}</label>
-                            <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
-                            @error('password')
-                            <span class="invalid-feedback" role="alert">{{ $message }}</span>
-                            @enderror
-                        </div>
                         
+                            <div class="input-group">
+                                <input id="regPasswordInput" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
+                                @error('password')
+                                <span class="invalid-feedback" role="alert">{{ $message }}</span>
+                                @enderror
+                        
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" type="button" id="regPasswordButton" onclick="passwordShowHide('regPasswordInput', 'regPasswordButton')">Show</button>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="form-group">
-                            <label for="password-confirm">{{ __('Confirm Password') }}</label>
-                            <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
-                        </div>
+                            <label for="password">{{ __('Confirm Password') }}</label>
                         
+                            <div class="input-group">
+                                <input id="regConfPasswordInput" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" type="button" id="regConfPasswordButton" onclick="passwordShowHide('regConfPasswordInput', 'regConfPasswordButton')">Show</button>
+                                </div>
+                            </div>
+                        </div>
+                                               
                         <button type="submit" class="btn btn-primary">{{ __('Register') }}</button>
                     </form>
                 </div>
