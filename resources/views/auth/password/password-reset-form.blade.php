@@ -60,6 +60,10 @@
                                     <button class="btn btn-outline-secondary" type="button" id="resetConfPasswordButton" onclick="passwordShowHide('resetConfPasswordInput', 'resetConfPasswordButton')">Show</button>
                                 </div>
                             </div>
+
+                            @error('password_confirmation')
+                            <span class="invalid-feedback" role="alert">{{ $message }}</span>
+                            @enderror
                         </div>
                                                
                         <button type="submit" class="btn btn-primary">{{ __('Update Password') }}</button>

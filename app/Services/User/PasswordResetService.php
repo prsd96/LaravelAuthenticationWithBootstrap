@@ -36,7 +36,8 @@ class PasswordResetService
     {
         $user = User::whereEmail(decrypt($request->email))->first();
         
-        if (!$user) {
+        if (!$user) 
+        {
             return 0;
         }
         else

@@ -45,33 +45,5 @@ class PasswordResetController extends Controller
         {
             return view('error/user/user_unverified');
         }
-        /*
-        $request->validate([
-            'email' => 'email|exists:users',
-            'password' => 'required|string|min:6|confirmed',
-            'password_confirmation' => 'required'
-        ]);
-        
-        $updatePassword = PasswordReset::where(['email' => $request->email, 'token' => $request->token])->first();
-        
-        if(!$updatePassword)
-        {
-            return back()->withInput()->with([
-                'error' => 'Invalid token!',
-                'alert_msg' => 'Invalid token!',
-                'alert_type' => 'danger'
-            ]);
-        }
-        
-        $user = User::where('email', $request->email)
-        ->update(['password' => Hash::make($request->password)]);
-        
-        PasswordReset::where(['email'=> $request->email])->delete();
-        
-        return redirect('/login')->with([
-            'alert_msg' => 'Your password has been changed!',
-            'alert_type' => 'success'
-        ]);
-        */
     }
 }
