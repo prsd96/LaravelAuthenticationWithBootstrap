@@ -20,10 +20,9 @@ class PasswordResetService
         {
             $token = Str::random(64);
             
-            PasswordReset::insert([
+            PasswordReset::create([
                 'email' => $user->email, 
                 'token' => $token, 
-                'created_at' => now()
             ]);
             
             $resetURL = route('showPasswordResetForm', $token);
@@ -40,14 +39,13 @@ class PasswordResetService
         {
             return 0;
         }
-        else
-        {
-            $user->password = bcrypt($request->password); 
-            $user->updated_at = now();
-            $user->update();
-            $message = 'Your password has been updated successfully. Please login.';
-            return $message;        
-        }
+
+        $user->password = bcrypt($request->password); 
+        $user->updated_at = now();
+        $user->save();
+
+        return 'Your password has been updated successfully. Please login.';        
+        
         
     }
 }

@@ -1,17 +1,11 @@
 <?php
 
-//this is for user login, register, verify
-
 namespace App\Http\Controllers\Auth;
 
 use App\Services\User\UserService;
 use App\Http\Requests\LoginRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use App\Models\UserEmailVerification;
-
-use function PHPUnit\Framework\isNull;
-use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Session;
 
 class AuthController extends Controller
@@ -21,9 +15,9 @@ class AuthController extends Controller
         return view('auth/registration/register');
     }
     
-    public function verifyUserEmail($token)
+    public function verifyUserEmail($token, UserService $userService)
     {
-        $emailVerify = (new UserService)->verifyingUserEmail($token);
+        $emailVerify = $userService->verifyingUserEmail($token);
 
         if($emailVerify)
         {
@@ -50,21 +44,15 @@ class AuthController extends Controller
         }
         else
         {
-            return redirect('login')->with([
-                'type' => 'danger',
-                'message' => 'Oops! You have entered invalid credentials.'
-            ]);
+            return redirect()->route('login')->with([ 'type' => 'danger', 'message' => 'Oops! You have entered invalid credentials.']);
         }
     }
-    
     
     public function logout() 
     {
         Session::flush();
-        Auth::logout();        
-        return Redirect('/')->with([
-            'type' => 'success',
-            'message' => 'You have been logged out.'
-        ]);
+        Auth::logout();
+        
+        return Redirect('/')->with([ 'type' => 'success', 'message' => 'You have been logged out.']);
     }
 }

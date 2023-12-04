@@ -18,25 +18,24 @@ class PasswordResetController extends Controller
     {
         return view('auth/password/forgot-password');
     }
-
-    public function sendPasswordResetLink(PasswordResetRequest $request)
+    
+    public function sendPasswordResetLink(PasswordResetRequest $request, PasswordResetService $passwordResetService)
     {
-        (new PasswordResetService)->passwordResetEmail($request);
+        $passwordResetService->passwordResetEmail($request);
         return view('auth/password/password-reset-alert');
     }
-
+    
     public function showPasswordResetForm($token)
     {
         $getEmail = PasswordReset::where(['token' => $token])->first();
         $email = $getEmail->email;
         return view('auth/password/password-reset-form', ['token' => $token, 'email' => $email]);
     }
-
-    public function updatePassword(UpdatePasswordRequest $request)
+    
+    public function updatePassword(UpdatePasswordRequest $request, PasswordResetService $passwordResetService)
     {
-       
-        $updatePassword = (new PasswordResetService)->updateUserPassword($request);
-
+        $updatePassword = $passwordResetService->updateUserPassword($request);
+        
         if($updatePassword)
         {
             return redirect()->route('login')->with(['type'=>'success', 'message' => $updatePassword]);

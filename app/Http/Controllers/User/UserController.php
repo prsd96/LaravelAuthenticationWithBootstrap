@@ -47,6 +47,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
+        //function not yet updated
         return response()->json(['data' => $user]);
     }
 
@@ -59,6 +60,7 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
+        //function not yet updated
         $user->update($request->validated());
         return response()->json(['data' => $user]);
     }

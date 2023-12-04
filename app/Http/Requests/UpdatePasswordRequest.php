@@ -31,12 +31,12 @@ class UpdatePasswordRequest extends FormRequest
         ];
     }
     
-    //error messages for above validations
+    // Error messages for above validations
     public function messages()
     {
         return [
             // 'email' => 'email',
-            'password' => 'password',
+            'password.required' => 'Password is required.',
             // 'password_confirmation' => 'password_confirmation',
         ];
     }

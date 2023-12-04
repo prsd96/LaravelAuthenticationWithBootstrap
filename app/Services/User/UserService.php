@@ -10,56 +10,48 @@ use Illuminate\Support\Facades\Mail;
 
 class UserService
 {
-    public function emailVerificationEmail(User $user): void
+    public function sendEmailVerification(User $user): void
     {
-        $user = User::whereEmail($user->email)->first();
+        $token = Str::random(64);
 
-        if ($user) 
-        {
-            $token = Str::random(64);
+        UserEmailVerification::create([
+            'user_id' => $user->id,
+            'email' => $user->email,
+            'token' => $token,
+        ]);
 
-            UserEmailVerification::insert([
-                'user_id' => $user->id,
-                'email' => $user->email, 
-                'token' => $token,
-                'created_at' => now()
-            ]);
-
-            $verificationURL = route('verifyUserEmail', $token);
-            Mail::to($user->email)->send(new EmailVerificationMail($verificationURL));
-        }
-
+        $verificationURL = route('verifyUserEmail', $token);
+        Mail::to($user->email)->send(new EmailVerificationMail($verificationURL));
     }
 
-    public function verifyingUserEmail($token)
+    public function verifyEmail($token)
     {
-        $data = UserEmailVerification::whereToken($token)->first();
-        
-        if (!$data) {
+        $verification = UserEmailVerification::whereToken($token)->first();
+
+        if (!$verification) 
+        {
             return 0;
         }
-        
-        $userToVerify = $data->user;
+
+        $user = $verification->user;
         $message = '';
-        
-        if ($userToVerify->email == $data->email) 
-        { 
-            if ($userToVerify->email_verified) 
+
+        if ($user->email == $verification->email) 
+        {
+            if ($user->email_verified) 
             {
                 $message = 'Your email is already verified. Please login.';
             } 
-            else
+            else 
             {
-                $userToVerify->email_verified = true;
-                $userToVerify->email_verified_at = now();
-                $userToVerify->updated_at = now();
-                $userToVerify->update();
-                
+                $user->email_verified = true;
+                $user->email_verified_at = now();
+                $user->save();
+
                 $message = 'Thank you for verifying your email. Please login.';
             }
-            
+
             return $message;
         }
-
     }
 }
