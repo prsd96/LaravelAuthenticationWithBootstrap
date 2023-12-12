@@ -27,8 +27,14 @@ class PasswordResetController extends Controller
     
     public function showPasswordResetForm($token)
     {
-        $getEmail = PasswordReset::where(['token' => $token])->first();
-        $email = $getEmail->email;
+        $passwordReset = PasswordReset::where('token', $token)->first();
+
+        // Check if the token is still valid
+        if (!$passwordReset || $passwordReset->expires_at < now()) {
+            return view('error/user/user_unverified');
+        }
+
+        $email = $passwordReset->email;
         return view('auth/password/password-reset-form', ['token' => $token, 'email' => $email]);
     }
     

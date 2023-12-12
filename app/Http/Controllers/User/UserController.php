@@ -1,7 +1,5 @@
 <?php
 
-//user CRUD
-
 namespace App\Http\Controllers\User;
 
 use App\Models\User;
@@ -15,26 +13,26 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\View\View
      */
     public function index()
     {
-        $data = User::all();
-        return view('user/index', compact('data'));
+        $users = User::all();
+        return view('user/index', compact('users'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\JsonResponse
+     * @param  CreateUserRequest  $request
+     * @return \Illuminate\View\View
      */
-    public function store(CreateUserRequest $request)
+    public function store(CreateUserRequest $request, UserService $userService)
     {
-        $data = User::create($request->validated());
+        $user = User::create($request->validated());
 
-        //send email verification email
-        (new UserService)->emailVerificationEmail($data);
+        // Send email verification email
+        $userService->sendEmailVerification($user);
 
         return view('auth/registration/verify_email_alert');
     }
@@ -42,26 +40,25 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\JsonResponse
+     * @param  User  $user
+     * @return \Illuminate\View\View
      */
     public function show(User $user)
     {
-        //function not yet updated
-        return response()->json(['data' => $user]);
+        // You might want to update this method based on your requirements
+        return view('user/show', compact('user'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\JsonResponse
+     * @param  UpdateUserRequest  $request
+     * @param  User  $user
+     * @return \Illuminate\View\View
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        //function not yet updated
         $user->update($request->validated());
-        return response()->json(['data' => $user]);
+        return view('user/show', compact('user'))->with(['success' => 'User updated successfully']);
     }
 }

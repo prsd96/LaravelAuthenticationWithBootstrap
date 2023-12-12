@@ -17,7 +17,7 @@ class AuthController extends Controller
     
     public function verifyUserEmail($token, UserService $userService)
     {
-        $emailVerify = $userService->verifyingUserEmail($token);
+        $emailVerify = $userService->verifyEmail($token);
 
         if($emailVerify)
         {

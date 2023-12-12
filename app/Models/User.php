@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Helpers\Helper;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -63,6 +64,10 @@ class User extends Authenticatable
             $query->role_id = $query->role_id ?? 2;
             $query->email_verified = false;
             $query->mobile_verified = false;
+        });
+        
+        static::created(function ($query) {
+            $query->code = Helper::CodeGenerator('USER', '6', $query->id);
         });
     }
     

@@ -2,17 +2,24 @@
 
 namespace App\Models;
 
+use App\Helpers\Helper;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class PasswordReset extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
     protected $fillable = [
         'email', 'token',
     ];
 
-    protected $dates = ['deleted_at'];
+    protected static function boot()
+    {
+        parent::boot();
+        
+        static::created(function ($query) {
+            $query->expires_at = Helper::calculateExpiry($query->created_at, '10', 'minutes');
+        });
+    }
 }
